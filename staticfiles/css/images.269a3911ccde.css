@@ -1,0 +1,301 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  cursor: context-menu;
+}
+
+.light-mode, .dark-mode {
+  background: #292929;
+  width: 100vw;
+  height: 100vh;
+}
+.light-mode .navbar, .dark-mode .navbar {
+  background: #010101;
+  color: white;
+  width: 100%;
+  height: 5vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+}
+.light-mode .navbar .controls, .dark-mode .navbar .controls {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.light-mode .navbar .controls a, .dark-mode .navbar .controls a {
+  color: white;
+  z-index: 1;
+  text-decoration: none;
+  padding: 0.45rem 0.75rem;
+}
+.light-mode .navbar .controls a i, .dark-mode .navbar .controls a i {
+  z-index: 0;
+}
+.light-mode .navbar .controls a:hover, .dark-mode .navbar .controls a:hover {
+  background: #1a1a1a;
+}
+.light-mode .navbar .image-menu, .dark-mode .navbar .image-menu {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  top: 2rem;
+  height: 0rem;
+  pointer-events: none;
+  transform: translateY(-3rem);
+  opacity: 0;
+  right: 0.5rem;
+  z-index: 2;
+  background: #f1f1f1;
+  padding: 0.35rem 0.1rem;
+}
+.light-mode .navbar .image-menu > a, .dark-mode .navbar .image-menu > a {
+  text-decoration: none;
+  color: black;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+}
+.light-mode .navbar .image-menu a.delete, .dark-mode .navbar .image-menu a.delete {
+  color: red;
+}
+.light-mode .navbar .image-menu > a:hover, .dark-mode .navbar .image-menu > a:hover {
+  background: #d3d3d3;
+  color: black;
+  transition: all ease 0.1s;
+}
+.light-mode .navbar .image-menu.active, .dark-mode .navbar .image-menu.active {
+  height: fit-content;
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+  transition: all ease-in-out 300ms;
+}
+.light-mode .navbar .description, .dark-mode .navbar .description {
+  position: absolute;
+  padding: 0.5rem;
+  top: 2rem;
+  opacity: 0;
+  transform: translateY(-3rem);
+  height: 0;
+  pointer-events: none;
+  right: 0.5rem;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+  background: #ffffff;
+}
+.light-mode .navbar .description form, .dark-mode .navbar .description form {
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.75rem;
+}
+.light-mode .navbar .description form p, .dark-mode .navbar .description form p {
+  color: black;
+  font-size: 1rem;
+  padding-left: 0.25rem;
+}
+.light-mode .navbar .description form input, .dark-mode .navbar .description form input {
+  width: 17rem;
+  padding: 0.5rem 0.5rem;
+  border: none;
+  background: #ddd;
+  font-size: 0.8rem;
+  outline: none;
+}
+.light-mode .navbar .description form .submit-btns, .dark-mode .navbar .description form .submit-btns {
+  display: flex;
+  column-gap: 0.25rem;
+}
+.light-mode .navbar .description form .submit-btns button, .dark-mode .navbar .description form .submit-btns button {
+  width: 50%;
+  padding: 0.25rem 0;
+  border: none;
+  transition: all ease 0.1s;
+}
+.light-mode .navbar .description form .submit-btns button:nth-of-type(1), .dark-mode .navbar .description form .submit-btns button:nth-of-type(1) {
+  background: #007cbf;
+  color: white;
+}
+.light-mode .navbar .description form .submit-btns button:nth-of-type(1):hover, .dark-mode .navbar .description form .submit-btns button:nth-of-type(1):hover {
+  background: #008dd9;
+}
+.light-mode .navbar .description form .submit-btns button:nth-of-type(2), .dark-mode .navbar .description form .submit-btns button:nth-of-type(2) {
+  background: #ddd;
+}
+.light-mode .navbar .description form .submit-btns button:nth-of-type(2):hover, .dark-mode .navbar .description form .submit-btns button:nth-of-type(2):hover {
+  background: #d3d3d3;
+}
+.light-mode .navbar .description.active, .dark-mode .navbar .description.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  height: fit-content;
+  transition: all ease-in-out 300ms;
+}
+.light-mode .navbar .deletion, .dark-mode .navbar .deletion {
+  position: absolute;
+  top: 2rem;
+  right: 0.5rem;
+  width: 17rem;
+  background: #ffffff;
+  padding: 0.75rem 0.5rem 0.5rem 0.5rem;
+  opacity: 0;
+  height: 0;
+  z-index: 3;
+  pointer-events: none;
+  transform: translateY(-3rem);
+}
+.light-mode .navbar .deletion p, .dark-mode .navbar .deletion p {
+  color: black;
+  padding-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+.light-mode .navbar .deletion div, .dark-mode .navbar .deletion div {
+  display: flex;
+  column-gap: 0.3rem;
+  width: 100%;
+  text-align: center;
+}
+.light-mode .navbar .deletion div a, .dark-mode .navbar .deletion div a {
+  flex: 50%;
+  text-decoration: none;
+  color: black;
+  transition: all ease 0.1s;
+  padding: 0.25rem 0;
+  font-size: 0.85rem;
+}
+.light-mode .navbar .deletion div a:nth-of-type(1), .dark-mode .navbar .deletion div a:nth-of-type(1) {
+  background: #007cbf;
+  color: white;
+}
+.light-mode .navbar .deletion div a:nth-of-type(1):hover, .dark-mode .navbar .deletion div a:nth-of-type(1):hover {
+  background: #008dd9;
+  color: white;
+}
+.light-mode .navbar .deletion div a:nth-of-type(2), .dark-mode .navbar .deletion div a:nth-of-type(2) {
+  background: #dddddd;
+}
+.light-mode .navbar .deletion div a:nth-of-type(2):hover, .dark-mode .navbar .deletion div a:nth-of-type(2):hover {
+  background: #d3d3d3;
+}
+.light-mode .navbar .deletion.active, .dark-mode .navbar .deletion.active {
+  opacity: 1;
+  height: fit-content;
+  transform: translateY(0);
+  pointer-events: auto;
+  transition: all ease-in-out 300ms;
+}
+.light-mode main, .dark-mode main {
+  display: flex;
+  justify-content: space-between;
+}
+.light-mode .image-container, .dark-mode .image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.light-mode .image-container img, .dark-mode .image-container img {
+  height: 100%;
+  width: auto;
+  object-fit: cover;
+}
+.light-mode .navigate, .dark-mode .navigate {
+  color: white;
+  display: flex;
+  align-items: center;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  background: none;
+  border: none;
+  text-decoration: none;
+}
+.light-mode .navigate:hover, .dark-mode .navigate:hover {
+  background: #373737;
+}
+.light-mode .navigate.inactive:hover, .dark-mode .navigate.inactive:hover {
+  background: none;
+}
+.light-mode footer, .dark-mode footer {
+  height: 5vh;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dark-mode .navbar .image-menu {
+  background: #1a1a1a;
+  border: solid 1px black;
+}
+.dark-mode .navbar .image-menu > a {
+  color: white;
+}
+.dark-mode .navbar .image-menu a.delete {
+  color: white;
+}
+.dark-mode .navbar .image-menu > a:hover {
+  background: #474747;
+  color: white;
+  transition: all ease 0.1s;
+}
+.dark-mode .navbar .description {
+  background: #0d0d0d;
+  border: solid 1px #adadad;
+}
+.dark-mode .navbar .description form p {
+  color: white;
+}
+.dark-mode .navbar .description form input {
+  background: #404040;
+  color: white;
+}
+.dark-mode .navbar .description form input::placeholder {
+  color: #d3d3d3;
+}
+.dark-mode .navbar .description form .submit-btns button:nth-of-type(1) {
+  background: #35a0ca;
+  color: black;
+}
+.dark-mode .navbar .description form .submit-btns button:nth-of-type(1):hover {
+  background: #3090b6;
+}
+.dark-mode .navbar .description form .submit-btns button:nth-of-type(2) {
+  background: #404040;
+  color: white;
+}
+.dark-mode .navbar .description form .submit-btns button:nth-of-type(2):hover {
+  background: #333333;
+}
+.dark-mode .navbar .deletion {
+  background: #0d0d0d;
+  border: solid 1px #adadad;
+}
+.dark-mode .navbar .deletion p {
+  color: white;
+}
+.dark-mode .navbar .deletion div a:nth-of-type(1) {
+  background: #35a0ca;
+  color: black;
+}
+.dark-mode .navbar .deletion div a:nth-of-type(1):hover {
+  background: #3090b6;
+  color: black;
+}
+.dark-mode .navbar .deletion div a:nth-of-type(2) {
+  background: #404040;
+  color: white;
+}
+.dark-mode .navbar .deletion div a:nth-of-type(2):hover {
+  background: #333333;
+}
+
+/*# sourceMappingURL=images.css.28ac030f9696.map */

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="icon" href="{% static 'images/favicon.svg' %}">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'css/messages.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Login</title>
+</head>
+<body>
+    <main>
+        <div class="logo">
+            <i class="fa-solid fa-list fa-2xl"></i>
+        </div>
+        <h2>LOG IN</h2>
+        <div>
+        {% if messages %}
+            {% for message in messages %}
+            <div class="{{ message.tags }}">
+                {% if message.tags == 'info' %}
+                <i class="fa-solid fa-thumbs-up"></i>
+                <p class="msg-title">{{ message.message }}</p>
+                <i data-closeBtn class="fa-solid fa-circle-xmark fa-sm"></i>
+                {% endif %}
+                {% if message.tags == 'warning' %}
+                <i class="fa-solid fa-circle-info"></i>
+                <p class="msg-title">{{ message.message|safe }}</p>
+                <i data-closeBtn class="fa-solid fa-circle-xmark fa-sm"></i>
+                {% endif %}
+                {% if message.tags == 'error' %}
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <p class="msg-title">{{ message.message }}</p>
+                <i data-closeBtn class="fa-solid fa-circle-xmark fa-sm"></i>
+                {% endif %}
+                {% if message.tags == 'success' %}
+                <i class="fa-solid fa-circle-check"></i>
+                <p class="msg-title">{{ message.message }}</p>
+                <i data-closeBtn class="fa-solid fa-circle-xmark fa-sm"></i>
+                {% endif %}
+            </div> 
+            {% endfor %}
+        {% endif %}
+        </div>
+        <form action="{% url 'users:login' %}" method="post">
+            {% csrf_token %}
+            <div>
+                <i class="fa-solid fa-user fa-xs"></i>
+                <input type="text" name="username" id="username" placeholder="Username"><hr>
+            </div><br>
+            <div>
+                <i class="fa-solid fa-lock fa-xs"></i>
+                <input type="password" name="password" id="password" placeholder="Password"><hr>
+                <a class="forgot-pass" href="{% url 'users:forgot_pass' %}">Forgot password?</a>
+                <div class="password-visibility"><i id="hidden" class="fa-regular fa-eye-slash fa-xs"></i><i class="fa-regular fa-eye fa-xs"></i></div>
+            </div><br>
+            <div class="rem">
+                <i id="hidden" class="fa-regular fa-square-check fa-sm"></i>
+                <i class="fa-regular fa-square fa-sm"></i>
+                <span>Remember Me</span>
+            </div><br>
+            <input class="login-btn" type="submit" value="Login">
+        </form>
+        <p class="sign_up">Don't have an account? <a href="{% url 'users:signup' %}">Sign Up</a></p>
+    </main>
+    <script>
+        const passwordVisiblityBtn = document.querySelector('.password-visibility')
+        const passwordInput = document.getElementById('password')
+        const rememberBtn = document.querySelector('.rem')
+        passwordVisiblityBtn.addEventListener('click', () =>  {
+            if(passwordInput.type == 'password'){
+                passwordInput.type = 'text'
+                passwordVisiblityBtn.children[0].id = ''
+                passwordVisiblityBtn.children[1].id = 'hidden'
+            }else if(passwordInput.type == 'text'){
+                passwordInput.type = 'password'
+                passwordVisiblityBtn.children[1].id = ''
+                passwordVisiblityBtn.children[0].id = 'hidden'
+            }
+        })
+
+        rememberBtn.addEventListener('click', () => {
+            if(rememberBtn.children[0].id == 'hidden'){
+                rememberBtn.children[0].removeAttribute('id')
+                rememberBtn.children[2].style.color = 'black'
+                rememberBtn.children[1].setAttribute('id', 'hidden')
+            }else if (rememberBtn.children[0].id == ''){
+                rememberBtn.children[1].removeAttribute('id')
+                rememberBtn.children[0].setAttribute('id', 'hidden')
+                rememberBtn.children[2].style.color = 'gray'
+            }
+        })
+
+        const closeBtns = document.querySelectorAll('[data-closeBtn]');
+        for(let btn of closeBtns){
+            btn.addEventListener('click', () => {
+                btn.parentElement.outerHTML = ''
+            })
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="icon" href="{% static 'images/favicon.svg' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static 'css/images.css' %}">
+    <script defer src="{% static 'js/images.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+        .image-container{
+            {% if current_image.alt_text %}
+            height: 90vh;
+            {% else %}
+            height: 95vh;
+            {% endif %}
+        }
+    </style>
+    <title>Images</title>
+</head>
+<body id="images">
+    <div class="{{ display_mode }}">
+        <nav class="navbar">
+            <div class="controls">
+                <a href="#" data-image-menu-btn title="Menu">
+                    <i class="fa-solid fa-ellipsis"></i>
+                </a>
+                <a href="#" data-close title="Close Window">
+                    <i class="fa-solid fa-x"></i>
+                </a>
+            </div>
+            <div data-image-menu class="image-menu">
+                <a href="{{ current_image.image.url }}" onclick="closeImageMenu()" download><i class="fa-solid fa-download"></i>Save To Device</a>
+                <a href="{{ current_image.image.url }}" onclick="closeImageMenu()"><i class="fa-solid fa-arrow-up-right-from-square"></i>Open in Photos</a>
+                <a data-describe href="#" onclick="closeImageMenu()"><i class="fa-solid fa-pencil"></i>Edit Description</a>
+                <a data-delete-action href="#" onclick="closeImageMenu()" class="delete"><i class="fa-solid fa-trash-can"></i>Delete Image</a>
+                <a href="{% url 'notes:note' note.pk %}" onclick="closeImageMenu()"><i class="fa-solid fa-list"></i>Back to Note</a>
+            </div>
+            <div data-description class="description">
+                <form id="description_form" autocomplete="off" method="POST" action="{% url 'notes:describe' note.pk current_index current_image.pk %}">
+                    {% csrf_token %}
+                    <p>Description</p>
+                    <input type="text" name="alt_text" id="alt_text" placeholder="Type a description" value="{{ current_image.alt_text }}" autofocus>
+                    <div class="submit-btns">
+                        <button type="submit" onclick="resetAllMenus()">Done</button>
+                        <button onclick="resetAllMenus()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+            <div data-delete-dialog class="deletion">
+                <p>This image will be deleted</p>
+                <div class="deletion-btns">
+                    <a href="{% url 'notes:delete_img_from_gal' note.pk current_index current_image.pk %}">Delete</a>
+                    <a onclick="resetAllMenus()" >Keep</a>
+                </div>
+            </div>
+        </nav>
+        <main>
+            {% if previous_image %}
+                <a href="{% url 'notes:view_image' note.pk previous_image_index %}" class="navigate previous" title="Previous">
+                    <i class="fa-solid fa-arrow-left fa-lg"></i>
+                </a>
+            {% else %}
+                <a href="#" class="navigate previous inactive">
+                    <i class="fa-solid fa-arrow-left fa-lg"></i>
+                </a>
+            {% endif %}
+            {% if images %}
+                {% for image in images %}
+                    {% if forloop.counter0 == current_index %}
+                    <div>
+                        <div class="image-container">
+                            <img src="{{ image.image.url }}">
+                        </div>
+                            {% if current_image.alt_text %}
+                                <footer>
+                                    <p>{{ current_image.alt_text }}</p>
+                                </footer>
+                            {% endif %}
+                    </div>
+                    {% endif %}
+                {% endfor%}
+            {% endif %}
+            {% if next_image %}
+                <a href="{% url 'notes:view_image' note.pk next_image_index %}" class="navigate next" title="Next">
+                    <i class="fa-solid fa-arrow-right fa-lg"></i>
+                </a>
+            {% else %}
+                <a href="#" class="navigate previous inactive">
+                    <i class="fa-solid fa-arrow-right fa-lg"></i>
+                </a>
+            {% endif %}
+        </main>
+    </div>
+</body>
+</html>

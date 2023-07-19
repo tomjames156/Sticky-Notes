@@ -1,0 +1,12 @@
+{% autoescape off %}
+
+Welcome to Sticky Notes
+
+Hello {{ fname }}!
+
+Please confirm your email by clicking the following link.
+
+Confirmation Link: http://{{ domain }}{% url 'users:activate' uidb64=uid token=token %}
+{% comment %} Change this link when the app goes live {% endcomment %}
+
+{% endautoescape %}

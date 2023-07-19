@@ -1,0 +1,52 @@
+<div class="notes-list">
+    {% if notes %}
+    <div class="notes">
+        {% for note in notes %}
+        <div data-option-parent class="note {{ note.colour_theme }}" ondblclick='this.children[2].children[0].click()'>
+            <p class="date">{{ note.get_formatted_date_last_updated }}</p>
+            <p class="options hide drop-menu" data-option-btn title="Menu">...
+            </p>
+            <div class="drop-content">
+                <a href="{% url 'notes:note' note.pk %}"><i class="fa-solid fa-arrow-up-right-from-square"></i>Open Note</a>
+                <a href="{% url 'notes:delete' note.pk %}"><i class="fa-solid fa-trash-can"></i> Delete Note</a>
+            </div>
+            {% if note.has_excess_images %}
+                <div class="images">
+                    {% for image_obj in note.get_images.images %}
+                    <div class="image">
+                        <img src="{{ image_obj.image.url }}" alt="{{ image_obj.alt_text }}">
+                    </div>
+                    {% endfor %}
+                    <div class="image extra">
+                        <div></div>
+                        <img src="{{ note.get_images.last_image.image.url }}" alt="{{ image_obj.alt_text }}">
+                        <span class="no_of_extra">+{{ note.get_images.no_of_extra }}</span>
+                    </div>
+                </div>
+                {% elif note.get_images.images|length_is:"1" %}
+                <div class="images single">
+                    {% for image_obj in note.get_images.images %}
+                    <div class="image">
+                        <img src="{{ image_obj.image.url }}" alt="{{ image_obj.alt_text }}">
+                    </div>
+                    {% endfor %}
+                </div>
+                {% elif note.get_images.images %}
+                <div class="images">
+                    {% for image_obj in note.get_images.images %}
+                    <div class="image">
+                        <img src="{{image_obj.image.url}}" alt="{{ image_obj.alt_text }}">
+                    </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <div class="note_text">
+                {{ note.note_text|safe }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class='no_results'>{{error_message_no_search_results}}</p>
+    {% endif %}
+</div>

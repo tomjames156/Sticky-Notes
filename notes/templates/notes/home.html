@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="icon" href="{% static 'images/favicon.svg' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/messages.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://unpkg.com/htmx.org@1.8.6" integrity="sha384-Bj8qm/6B+71E6FQSySofJOUjA/gq330vEqjFx9LakWybUySyI1IQHwPtbTU7bNwx" crossorigin="anonymous"></script>
+    <title>Sticky Notes | Home</title>
+    <script src="{% static 'js/home.js'%}" defer></script>
+</head>
+<body class="{{ theme }}">
+    <div class="message-container">
+        {% comment %} maybe add an animation to the buttons so they fade in and out {% endcomment %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="{{ message.tags }}">
+                {% if message.tags == 'info' %}
+                <i class="fa-solid fa-thumbs-up"></i>
+                <p class="msg-title">{{ message.message }}</p>
+                <i data-closeBtn class="fa-solid fa-circle-xmark fa-sm"></i>
+                {% endif %}
+                {% if message.tags == 'warning' %}
+                <i class="fa-solid fa-circle-info"></i>
+                <p class="msg-title">{{ message.message|safe }}</p>
+                <i data-closeBtn class="fa-solid fa-circle-xmark fa-sm"></i>
+                {% endif %}
+                {% if message.tags == 'error' %}
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <p class="msg-title">{{ message.message }}</p>
+                <i data-closeBtn class="fa-solid fa-circle-xmark fa-sm"></i>
+                {% endif %}
+                {% if message.tags == 'success' %}
+                <i class="fa-solid fa-circle-check"></i>
+                <p class="msg-title">{{ message.message }}</p>
+                <i data-closeBtn class="fa-solid fa-circle-xmark fa-sm"></i>
+                {% endif %}
+            </div>            
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="container">
+        <div class="controls-container">
+            <div class="controls">
+                <div id="new_note" title="New note">
+                    <a href={% url 'notes:new_note' empty_note.colour_theme %}><i class="fa-solid fa-plus"></i></a>
+                </div>
+                <div class="settings-close">
+                    {% if user.is_authenticated != True %}
+                        <a class="light" title="Login" href="{% url 'users:login' %}"><i class="fa-solid fa-right-to-bracket"></i></a>
+                    {% elif user.is_authenticated %}
+                        <a class="light" title="Logout" href="{% url 'users:sign_out' %}"><i class="fa-solid fa-right-from-bracket"></i></a>
+                    {% endif %}
+                    {% if theme == 'light-mode' %}
+                        <a class="dark" title="Dark Mode" href="{% url 'notes:change_display' 1 %}"><i class="fa-solid fa-moon"></i></a>
+                    {% elif theme == "dark-mode" %}
+                        <a class="light" title="Light Mode" href="{% url 'notes:change_display' 0 %}"><i class="fa-regular fa-sun"></i></a>
+                    {% endif %}
+                    <a title="Close window" id="close_btn"><i class="fa-solid fa-xmark"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="app-title"><a href="{% url 'notes:home' %}">Sticky Notes</a></div>
+        <div class="search-container">
+            <div class="search-box">
+                <form id="search_form" autcomplete="off">
+                    {% csrf_token %}
+                    <input
+                        hx-post={% url 'notes:search' %}
+                        hx-target='.notes-list'
+                        hx-trigger='keyup changed'
+                        type="text" 
+                        name="q" 
+                        id="q" 
+                        placeholder="Search..."
+                        autocomplete="off"
+                        autofocus>
+                    <div>
+                        <a
+                            href={% url 'notes:home' %}
+                            class="clear_search hide">
+                            <i class="fa-solid fa-xmark"></i>
+                        </a>
+                        <button type="submit" class="search_btn">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                </form>
+                <p id="error_message" class='hide search_text_error'>{{ error_message_enter_text }}</p>
+            </div>
+            <div class="space">
+            </div>
+        </div>
+        <div class="main-content">
+            {% include 'partials/results.html' %}
+        </div>
+    </div>
+    <div class="authentication">
+        {% if user.is_authenticated %}
+        <p><a href="{% url 'users:sign_out' %}"><i class="fa-solid fa-power-off fa-sm"></i>Log Out</a><p>
+        {% else %}
+        <p>Don't have an account yet?<br><a href="{% url 'users:signup' %}">Sign up <i class="fa-solid fa-user-plus fa-sm"></i></a></p>
+        {% endif %}
+    </div>
+    <script>
+        const closeBtns = document.querySelectorAll('[data-closeBtn]');
+        for(let btn of closeBtns){
+            btn.addEventListener('click', () => {
+                btn.parentElement.outerHTML = ''
+            })
+        }
+    </script>
+</body>
+</html>

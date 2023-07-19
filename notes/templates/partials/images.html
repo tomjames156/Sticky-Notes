@@ -1,0 +1,102 @@
+<div class="images-container">
+    {% if note.has_excess_images %}
+    <div class="images">
+        {% for image_obj in note.get_images.images %}
+        <div data-image-parent class="image">
+            <img data-image src="{{image_obj.image.url}}" alt="{{ image_obj.alt_text }}">
+            <div data-image-menu class="image-menu">
+                <a target="_blank" href="{% url 'notes:images' note.pk forloop.revcounter0|add:note.get_images.added %}">
+                    <i class="fa-solid fa-arrow-up-right-from-square fa-sm"></i>View Image
+                </a>
+                <a href="{{ image_obj.image.url }}" download>
+                    <i class="fa-solid fa-download fa-sm"></i>Save to Device
+                </a>
+                {% comment %} <a
+                    hx-get={% url 'notes:delete_img' note.pk forloop.revcounter0|add:note.get_images.added image_obj.pk %}
+                    hx-target='.images-container' 
+                    hx-headers={% csrf_token %}>
+                    <i class="fa-solid fa-trash-can fa-sm"></i>Delete Image
+                </a> {% endcomment %}
+                <a
+                    hx-post="{% url 'notes:delete_img' note.pk note.get_images.last_index image_obj.pk %}" hx-trigger="click" hx-target='.images-container' >
+                    <i class="fa-solid fa-trash-can fa-sm"></i>Delete Image
+                </a>
+                
+            </div>
+        </div>
+        {% if forloop.counter >= 3 %}
+        <div data-image-parent class="image extra">
+            <div class='extra'></div>
+            <img data-image src="{{ note.get_images.last_image.image.url }}" alt="{{ note.get_images.last_image.alt_text }}">
+            <div data-image-menu class="image-menu">
+                <a target="_blank" href="{% url 'notes:images' note.pk note.get_images.last_index %}">
+                    <i class="fa-solid fa-arrow-up-right-from-square fa-sm"></i>View Image
+                </a>
+                <a href="{{ note.get_images.last_image.image.url }}" download>
+                    <i class="fa-solid fa-download fa-sm"></i>Save to Device
+                </a>
+                {% comment %} <a 
+                    hx-post="{% url 'notes:delete_img' note.pk note.get_images.last_index image_obj.pk %}" hx-trigger="click" hx-swap="outerHTML" hx-target='.images-container' href={% csrf_token %} >
+                    <i class="fa-solid fa-trash-can fa-sm"></i>Delete Image
+                </a> {% endcomment %}
+                <form hx-post="{% url 'notes:delete_img' note.pk note.get_images.last_index image_obj.pk %}" hx-target=".images-container" hx-trigger="click" hx-swap="innerHTML">
+                {%  csrf_token %}   
+                    <button type="submit"
+                        
+                        {% comment %} hx-post="{% url 'notes:delete_img' note.pk note.get_images.last_index image_obj.pk %}" hx-trigger="click" hx-swap="outerHTML" hx-target='.images-container' href={% csrf_token %} > {% endcomment %}>
+                        <i class="fa-solid fa-trash-can fa-sm"></i>Delete Image
+                    </button>
+                </form>
+            </div>
+            <span class="no_of_extra">+{{ note.get_images.no_of_extra }}</span>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+    {% elif note.get_images.images|length_is:"1" %}
+    <div class="images single">
+        {% for image_obj in note.get_images.images %}
+        <div data-image-parent class="image">
+            <img data-image src="{{ image_obj.image.url }}" alt="{{ image_obj.alt_text }}">
+            <div data-image-menu class="image-menu">
+                    <a target="_blank" href="{% url 'notes:images' note.pk 0 %}">
+                        <i class="fa-solid fa-arrow-up-right-from-square fa-sm"></i>View Image
+                    </a>
+                    <a href="{{ image_obj.image.url }}" download>
+                        <i class="fa-solid fa-download fa-sm"></i>Save to Device
+                    </a>
+                    <a
+                    hx-get="{% url 'notes:delete_img' note.pk 0 image_obj.pk %}"
+                    hx-target='.images-container' 
+                    hx-headers="{% csrf_token %}">
+                        <i class="fa-solid fa-trash-can fa-sm"></i>Delete Image
+                    </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% elif note.get_images.images %}
+    <div class="images">
+        {% for image_obj in note.get_images.images %}
+        <div data-image-parent class="image">
+            <img data-image src="{{ image_obj.image.url }}" alt="{{ image_obj.alt_text }}">
+            <div data-image-menu class="image-menu">
+                <a target="_blank" href="{% url 'notes:images' note.pk forloop.revcounter0 %}">
+                    <i class="fa-solid fa-arrow-up-right-from-square fa-sm"></i>View Image
+                </a>
+                <a class="download_image" href="{{ image_obj.image.url }}" download>
+                    <i class="fa-solid fa-download fa-sm"></i>Save to Device
+                </a>
+                <a
+                    
+                    hx-get="{% url 'notes:delete_img' note.pk forloop.counter0 image_obj.pk %}"
+                    hx-target='.images-container' 
+                    hx-headers="{% csrf_token %}">
+                    <i class="fa-solid fa-trash-can fa-sm"></i>Delete Image
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>

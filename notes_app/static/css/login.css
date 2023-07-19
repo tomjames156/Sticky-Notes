@@ -1,0 +1,169 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+  display: flex;
+  font-family: sans-serif;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: #e5cd03;
+}
+
+main {
+  background: #fcfcfc;
+  height: fit-content;
+  padding: 2rem 0;
+  width: 30vw;
+  border-radius: 0.5rem;
+}
+
+h2 {
+  margin-bottom: 1rem;
+}
+
+.logo i {
+  color: #fce205;
+  padding: 2rem 1.2rem;
+  background: black;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+}
+
+form {
+  padding: 0 3rem;
+  margin-bottom: 3rem;
+}
+form div {
+  text-align: left;
+  position: relative;
+}
+form div input {
+  border: none;
+  outline: none;
+  padding-left: 0.5rem;
+}
+form div input[type=password]::-ms-reveal,
+form div input[type=password]::-ms-clear {
+  display: none;
+}
+form div hr {
+  margin-top: 0.5rem;
+}
+form div .password-visibility {
+  position: absolute;
+  top: 0.2rem;
+  right: 0;
+}
+form a.forgot-pass {
+  font-size: 0.7rem;
+  position: absolute;
+  top: 2rem;
+  right: 0;
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+}
+form a.forgot-pass:hover {
+  color: #b2a002;
+}
+form div.rem {
+  display: flex;
+  align-items: center;
+  column-gap: 0.6rem;
+  cursor: context-menu;
+}
+form div.rem span {
+  font-size: 0.85rem;
+  color: gray;
+}
+
+#hidden {
+  display: none;
+}
+
+.login-btn, .sign_up-btn {
+  padding: 0.5rem 1.5rem;
+  border-radius: 1rem;
+  background: black;
+  color: white;
+  cursor: pointer;
+}
+
+.login-btn:hover, .sign_up-btn:hover {
+  color: #fce205;
+}
+
+.sign_up-btn {
+  margin-top: 0.5rem;
+}
+
+.sign_up, .log_in {
+  font-size: 0.9rem;
+}
+.sign_up a, .log_in a {
+  color: black;
+}
+.sign_up a:hover, .log_in a:hover {
+  color: #b2a002;
+}
+
+.second_lock i.fa-lock {
+  color: gray;
+}
+
+.fp_text {
+  font-size: 0.9rem;
+  padding: 0 3rem;
+  margin-bottom: 2rem;
+}
+
+@media screen and (max-width: 950px) {
+  main {
+    width: 35vw;
+  }
+  form {
+    margin-bottom: 2rem;
+    padding: 0 2rem;
+  }
+}
+@media screen and (max-width: 850px) {
+  main {
+    width: 100vw;
+    height: fit-content;
+    border-radius: 0.5rem;
+  }
+  form {
+    margin-bottom: 2rem;
+  }
+}
+@media screen and (max-width: 650px) {
+  main {
+    width: 80vw;
+    height: fit-content;
+    border-radius: 0.5rem;
+  }
+  form {
+    margin-bottom: 2rem;
+    padding: 0 2rem;
+  }
+}
+@media screen and (max-width: 300px) {
+  main {
+    width: 95vw;
+    height: fit-content;
+    border-radius: 0.5rem;
+  }
+  form {
+    margin-bottom: 2rem;
+    padding: 0 1.5rem;
+  }
+}
+
+/*# sourceMappingURL=login.css.map */

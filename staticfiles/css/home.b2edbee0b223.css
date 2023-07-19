@@ -1,0 +1,595 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  cursor: context-menu;
+}
+
+*::-moz-selection {
+  background: transparent;
+}
+
+*::selection {
+  background: transparent;
+}
+
+.light-mode, .dark-mode {
+  border: solid 1px green;
+  font-family: sans-serif;
+  line-height: 1rem;
+  background: whitesmoke;
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+}
+.light-mode .container, .dark-mode .container {
+  height: 75vh;
+  width: 30vw;
+  background: white;
+  overflow-y: scroll;
+  border-radius: 0.25rem;
+}
+.light-mode .controls-container, .dark-mode .controls-container {
+  position: sticky;
+  z-index: 2;
+  top: 0;
+  background: white;
+}
+.light-mode .controls, .dark-mode .controls {
+  display: flex;
+  justify-content: space-between;
+}
+.light-mode .controls div a, .dark-mode .controls div a {
+  padding: 0.5rem 0.45rem;
+  color: gray;
+}
+.light-mode .controls div a:hover, .dark-mode .controls div a:hover {
+  background: #d3d3d3;
+}
+.light-mode #new_note, .dark-mode #new_note {
+  display: flex;
+}
+.light-mode .settings-close, .dark-mode .settings-close {
+  display: flex;
+}
+.light-mode .settings-close .light, .dark-mode .settings-close .light {
+  color: #ef9b0f;
+}
+.light-mode .settings-close .light:hover, .dark-mode .settings-close .light:hover {
+  background: #ededed;
+}
+.light-mode .settings-close .dark, .dark-mode .settings-close .dark {
+  color: black;
+}
+.light-mode .main-content, .dark-mode .main-content {
+  margin: 0 0.45rem 0 0.45rem;
+}
+.light-mode .app-title, .dark-mode .app-title {
+  font-weight: bold;
+  padding: 0.25rem 0.45rem 0.5rem 0.45rem;
+}
+.light-mode .app-title a, .dark-mode .app-title a {
+  text-decoration: none;
+  color: black;
+}
+.light-mode .search-container, .dark-mode .search-container {
+  position: sticky;
+  top: 2rem;
+  z-index: 1;
+  margin: 0 0.45rem;
+  overflow-x: hidden;
+}
+.light-mode .space, .dark-mode .space {
+  height: 0.75rem;
+  background: white;
+}
+.light-mode .search-box button i, .dark-mode .search-box button i {
+  color: pink;
+}
+.light-mode input[type=text], .dark-mode input[type=text] {
+  width: 100%;
+  border: none;
+  padding: 0.5rem 3.4rem 0.5rem 0.5rem;
+  font-family: sans-serif;
+  font: small;
+}
+.light-mode input[type=text]::-moz-selection, .dark-mode input[type=text]::-moz-selection {
+  background: #497da3 !important;
+  color: white;
+}
+.light-mode input[type=text]::selection, .dark-mode input[type=text]::selection {
+  background: #497da3 !important;
+  color: white;
+}
+.light-mode input[type=text]:focus, .dark-mode input[type=text]:focus {
+  outline: none;
+}
+.light-mode .search-box .clear_search, .dark-mode .search-box .clear_search {
+  position: absolute;
+  border: none;
+  right: 1.85rem;
+  padding: 0.5rem 0.5rem 0.45rem 0.5rem;
+  top: 0;
+  color: gray;
+}
+.light-mode .search-box .clear_search:hover, .dark-mode .search-box .clear_search:hover {
+  background: #d3d3d3;
+}
+.light-mode .hide, .dark-mode .hide {
+  display: none;
+}
+.light-mode .search-box button:hover, .dark-mode .search-box button:hover {
+  background: #d3d3d3;
+}
+.light-mode .search-box .search_btn, .dark-mode .search-box .search_btn {
+  position: absolute;
+  border: none;
+  right: 0;
+  top: 0;
+  padding: 0.5rem;
+  color: gray;
+}
+.light-mode p.search_text_error, .dark-mode p.search_text_error {
+  font-size: 0.75rem;
+  background: white;
+  margin-left: 0.5rem;
+  color: red;
+}
+.light-mode p.no_results, .dark-mode p.no_results {
+  font-size: 0.85rem;
+  background: white;
+  margin-left: 0.5rem;
+  color: darkslategray;
+}
+.light-mode .notes, .dark-mode .notes {
+  display: flex;
+  flex-direction: column;
+  flex: 100%;
+}
+.light-mode .note, .dark-mode .note {
+  background: #ffffcc;
+  padding: 1.5rem 0rem 1rem 0rem;
+  border-radius: 0.15rem;
+  min-height: 5rem;
+  height: fit-content;
+  font-size: smaller;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  cursor: default;
+  margin-bottom: 0.5rem;
+  animation: fade-in 0.7s;
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: rotate(-10deg);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0);
+  }
+}
+.light-mode .note .date, .dark-mode .note .date {
+  display: block;
+}
+.light-mode .note .options, .dark-mode .note .options {
+  display: none;
+}
+.light-mode .images, .dark-mode .images {
+  display: flex;
+  row-gap: 0.25rem;
+  column-gap: 0.25rem;
+  padding: 0.5rem 0.5rem 1rem 0.5rem;
+  width: 100%;
+  flex-wrap: wrap;
+  flex-basis: 4.75rem;
+  justify-content: space-between;
+}
+.light-mode .images div, .dark-mode .images div {
+  width: 4.796rem;
+  height: 5.33rem;
+  position: relative;
+  flex-grow: 1;
+}
+.light-mode .images div img, .dark-mode .images div img {
+  border-radius: 0.2rem;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.light-mode .images .extra div, .dark-mode .images .extra div {
+  width: 100%;
+  height: 100%;
+  background: black;
+  border-radius: 0.2rem;
+  filter: opacity(60%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+}
+.light-mode .images .extra .no_of_extra, .dark-mode .images .extra .no_of_extra {
+  position: absolute;
+  color: white;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+}
+.light-mode .images.single div, .dark-mode .images.single div {
+  height: 9rem;
+}
+.light-mode .date, .dark-mode .date {
+  position: absolute;
+  right: 0.5rem;
+  top: 0.35rem;
+  font-size: 0.6rem;
+  color: gray;
+}
+.light-mode .note.yellow-theme, .dark-mode .note.yellow-theme {
+  background: #ffffcc;
+}
+.light-mode .note.yellow-theme:hover, .dark-mode .note.yellow-theme:hover {
+  background: #ececbe;
+}
+.light-mode .note.green-theme, .dark-mode .note.green-theme {
+  background: #e6f8e2;
+}
+.light-mode .note.green-theme:hover, .dark-mode .note.green-theme:hover {
+  background: #def6da;
+}
+.light-mode .note.pink-theme, .dark-mode .note.pink-theme {
+  background: #ffeaf0;
+}
+.light-mode .note.pink-theme:hover, .dark-mode .note.pink-theme:hover {
+  background: #ffdbe5;
+}
+.light-mode .note.purple-theme, .dark-mode .note.purple-theme {
+  background: #f7ebfe;
+}
+.light-mode .note.purple-theme:hover, .dark-mode .note.purple-theme:hover {
+  background: #f4e1fe;
+}
+.light-mode .note.blue-theme, .dark-mode .note.blue-theme {
+  background: #dff4ff;
+}
+.light-mode .note.blue-theme:hover, .dark-mode .note.blue-theme:hover {
+  background: #d0efff;
+}
+.light-mode .note.gray-theme, .dark-mode .note.gray-theme {
+  background: #f1f1f1;
+}
+.light-mode .note.gray-theme:hover, .dark-mode .note.gray-theme:hover {
+  background: #e4e4e4;
+}
+.light-mode .note.charcoal-theme, .dark-mode .note.charcoal-theme {
+  background: gray;
+  color: white;
+}
+.light-mode .note.charcoal-theme .date, .dark-mode .note.charcoal-theme .date {
+  color: white;
+}
+.light-mode .note.charcoal-theme .options, .dark-mode .note.charcoal-theme .options {
+  color: white;
+}
+.light-mode .note.charcoal-theme:hover, .dark-mode .note.charcoal-theme:hover {
+  background: #8d8d8d;
+}
+.light-mode .note div.note_text, .dark-mode .note div.note_text {
+  margin: 0 1rem 0 1rem;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.light-mode .note:hover, .dark-mode .note:hover {
+  background: #ececbe;
+}
+.light-mode .note:hover .date, .dark-mode .note:hover .date {
+  display: none;
+}
+.light-mode .note:hover .options, .dark-mode .note:hover .options {
+  display: block;
+}
+.light-mode ::-webkit-scrollbar, .dark-mode ::-webkit-scrollbar {
+  width: 0.3rem;
+}
+.light-mode ::-webkit-scrollbar-thumb, .dark-mode ::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 0.15rem;
+}
+.light-mode ::-webkit-scrollbar-track, .dark-mode ::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+.light-mode ::-webkit-scrollbar-button::after, .dark-mode ::-webkit-scrollbar-button::after {
+  display: block;
+}
+.light-mode ::-webkit-scrollbar:hover, .dark-mode ::-webkit-scrollbar:hover {
+  width: 1rem;
+}
+.light-mode ::-webkit-scrollbar-thumb:hover, .dark-mode ::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+.light-mode .drop-menu, .dark-mode .drop-menu {
+  position: absolute;
+  right: 0.5rem;
+  top: 0.1rem;
+  font-size: 1rem;
+  color: gray;
+  z-index: 7;
+  cursor: pointer;
+}
+.light-mode .drop-content, .dark-mode .drop-content {
+  display: flex;
+  flex-direction: column;
+  background: #f1f1f1;
+  border: solid 1px #d4d4d4;
+  padding: 0.25rem 0.1rem;
+  z-index: 3;
+}
+.light-mode .drop-content a, .dark-mode .drop-content a {
+  background: #f1f1f1;
+  padding: 0.25rem 0.5rem;
+  display: flex;
+  column-gap: 0.5rem;
+  align-items: center;
+  text-decoration: none;
+  color: black;
+  height: auto;
+}
+.light-mode .drop-content a:hover, .dark-mode .drop-content a:hover {
+  background: #d3d3d3;
+}
+.light-mode p.drop-menu + div.drop-content, .dark-mode p.drop-menu + div.drop-content {
+  position: absolute !important;
+  right: 1rem;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-10px);
+  transition: opacity 150ms ease-in-out, transform ease-in-out 150ms;
+}
+.light-mode p.drop-menu.active + div.drop-content, .dark-mode p.drop-menu.active + div.drop-content {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.light-mode span.highlight, .dark-mode span.highlight {
+  background: yellow;
+  color: black;
+}
+
+.dark-mode .container {
+  background: black;
+  border-radius: 0.25rem;
+}
+.dark-mode .controls-container {
+  background: black;
+}
+.dark-mode .controls div a {
+  color: #6e6e6e;
+}
+.dark-mode .controls div a:hover {
+  background: #3a3a3a;
+}
+.dark-mode .settings-close {
+  display: flex;
+}
+.dark-mode .settings-close .light {
+  color: #ef9b0f;
+}
+.dark-mode .settings-close .light:hover {
+  background: #3a3a3a;
+}
+.dark-mode .app-title a {
+  color: #ffffff;
+}
+.dark-mode .space {
+  height: 0.75rem;
+  background: black;
+}
+.dark-mode .search-box button i {
+  color: #b5b5b5;
+}
+.dark-mode input[type=text] {
+  background: #404040;
+  color: white;
+}
+.dark-mode input[type=text]::placeholder {
+  color: #b5b5b5;
+}
+.dark-mode input[type=text]::-moz-placeholder {
+  color: #b5b5b5;
+}
+.dark-mode input[type=text]::-webkit-input-placeholder {
+  color: #b5b5b5;
+}
+.dark-mode input[type=text]::-moz-selection {
+  background: #497da3 !important;
+  color: white;
+}
+.dark-mode input[type=text]::selection {
+  background: #497da3 !important;
+  color: white;
+}
+.dark-mode input[type=text]:focus {
+  outline: none;
+}
+.dark-mode .search-box .clear_search {
+  position: absolute;
+  border: none;
+  right: 1.85rem;
+  padding: 0.5rem 0.5rem 0.45rem 0.5rem;
+  top: 0;
+  color: #e7e7e7;
+}
+.dark-mode .search-box .clear_search:hover {
+  background: #535353;
+}
+.dark-mode .search-box button:hover {
+  background: #535353;
+}
+.dark-mode .search-box .search_btn {
+  position: absolute;
+  border: none;
+  right: 0;
+  top: 0;
+  padding: 0.5rem;
+  color: #a8a8a8;
+  background: none;
+}
+.dark-mode p.search_text_error {
+  background: #202020;
+  margin: 0.5rem 0 0 0.5rem;
+  color: #ff7276;
+}
+.dark-mode p.no_results {
+  background: none;
+  color: white;
+}
+.dark-mode .notes {
+  display: flex;
+  flex-direction: column;
+  flex: 100%;
+}
+.dark-mode .note {
+  background: #333333;
+  padding: 1.5rem 0rem 1rem 0rem;
+  border-radius: 0.15rem;
+  min-height: 5rem;
+  height: fit-content;
+  font-size: smaller;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  cursor: default;
+  margin-bottom: 0.5rem;
+  animation: fade-in 0.7s;
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: rotate(-10deg);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0);
+  }
+}
+.dark-mode .note .date {
+  display: block;
+}
+.dark-mode .note .options {
+  display: none;
+  font-weight: bold;
+}
+.dark-mode .note .note_text {
+  color: white;
+}
+.dark-mode .note:hover {
+  background: #404040 !important;
+}
+.dark-mode .note.yellow-theme {
+  background: #333333;
+  border-top: 3.3px solid #fce205;
+}
+.dark-mode .note.yellow-theme .date, .dark-mode .note.yellow-theme .options {
+  color: #fce205;
+}
+.dark-mode .note.green-theme {
+  background: #333333;
+  border-top: 3.3px solid #90ee90;
+}
+.dark-mode .note.green-theme .date, .dark-mode .note.green-theme .options {
+  color: #c5efbe;
+}
+.dark-mode .note.pink-theme {
+  background: #333333;
+  border-top: 3.3px solid #ff83c1;
+}
+.dark-mode .note.pink-theme .date, .dark-mode .note.pink-theme .options {
+  color: #ffc1d2;
+}
+.dark-mode .note.purple-theme {
+  background: #333333;
+  border-top: 3.3px solid #bb80f1;
+}
+.dark-mode .note.purple-theme .date, .dark-mode .note.purple-theme .options {
+  color: #e8c3fd;
+}
+.dark-mode .note.blue-theme {
+  background: #333333;
+  border-top: 3.3px solid #3cdfff;
+}
+.dark-mode .note.blue-theme .date, .dark-mode .note.blue-theme .options {
+  color: #b7e6ff;
+}
+.dark-mode .note.gray-theme {
+  background: #333333;
+  border-top: 3.3px solid #d3d3d3;
+}
+.dark-mode .note.gray-theme .date, .dark-mode .note.gray-theme .options {
+  color: #d3d3d3;
+}
+.dark-mode .note.charcoal-theme {
+  background: #333333;
+  border-top: 3.3px solid #444444;
+}
+.dark-mode .note.charcoal-theme .date, .dark-mode .note.charcoal-theme .options {
+  color: #dbdbdb;
+}
+.dark-mode ::-webkit-scrollbar {
+  width: 0.3rem;
+}
+.dark-mode ::-webkit-scrollbar-thumb {
+  background: #d5d5d5;
+  border-radius: 0.25rem;
+}
+.dark-mode ::-webkit-scrollbar-track {
+  background: black;
+  border-radius: 50%;
+}
+.dark-mode ::-webkit-scrollbar-button::after {
+  display: block;
+}
+.dark-mode ::-webkit-scrollbar:hover {
+  width: 1rem;
+}
+.dark-mode ::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+.dark-mode .drop-content {
+  background: #202020;
+  border: solid 1px black;
+}
+.dark-mode .drop-content a {
+  background: none;
+  color: white;
+}
+.dark-mode .drop-content a:hover {
+  background: #404040;
+}
+
+@media screen and (max-width: 500px) {
+  .light-mode .container, .dark-mode .container {
+    width: 100vw;
+    height: 100vh;
+    background: white;
+    overflow-y: scroll;
+    border-radius: 0.25rem;
+  }
+  .dark-mode .container {
+    width: 100vw;
+    height: 100vh;
+    background: black;
+    overflow-y: scroll;
+    border-radius: 0.25rem;
+  }
+}
+
+/*# sourceMappingURL=home.css.e918b8bf5a02.map */
