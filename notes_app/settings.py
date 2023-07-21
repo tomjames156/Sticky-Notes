@@ -121,8 +121,7 @@ DATABASES = {
 
 
 CSRF_TRUSTED_ORIGINS = [
-    config('APP_URL'),
-    config('HOST_URL')
+    config('APP_URL')
 ]
 
 
