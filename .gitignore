@@ -14,5 +14,3 @@ venv.bak/
 
 scss/
 *.scss
-*.css.map
-*.css.map.gz
