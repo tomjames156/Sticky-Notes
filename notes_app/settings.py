@@ -28,11 +28,11 @@ SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
-# DEBUG = False
 
-
-# ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    config('APP_HOST'),
+    config('DEFAULT_HOST')
+]
 
 
 # Application definition
@@ -119,12 +119,11 @@ DATABASES = {
     }
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+
+CSRF_TRUSTED_ORIGINS = [
+    config('APP_URL'),
+    config('HOST_URL')
+]
 
 
 # Password validation
