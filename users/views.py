@@ -126,6 +126,7 @@ def activate(request, uidb64, token):
         new_user.save()
         login(request, new_user)
         DisplayMode.objects.create(user=new_user, display_mode="light-mode")
+        messages.info(request, (f'Welcome to the Sticky Notes <strong>{new_user.username}</strong>'))
         return redirect('notes:home')
     else:
         return render(request, 'authenticate/activation_failed.html')
